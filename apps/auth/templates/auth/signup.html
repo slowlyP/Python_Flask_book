@@ -1,0 +1,37 @@
+{% extends "auth/base.html" %}
+
+{% block title %}사용자 신규 등록{% endblock %}
+
+{% block content %}
+<form method="post" action="{{ url_for('auth.signup', next=request.args.get('next')) }}" novalidate="novalidate">
+
+    {% for message in get_flashed_messages() %}
+    <p style="color: red;">{{ message }}</p>
+    {% endfor %}
+    {{ form.csrf_token }}
+
+    <p>
+        {{ form.username.lable }}{{ form.username(size=30, placeholder="사용자명") }}
+    </p>
+    {% for errors in form.username.errors %}
+    <span style="color: red;">{{ errors }}</span>
+    {% endfor %}
+
+    <p>
+        {{ form.email.lable }}{{ form.email(placeholder="메일 주소") }}
+    </p>
+    {% for errors in form.email.errors %}
+    <span style="color: red;">{{ errors }}</span>
+    {% endfor %}
+
+    <p>
+        {{ form.password.lable }}{{ form.password(placeholder="비밀번호") }}
+    </p>
+    {% for errors in form.password.errors %}
+    <span style="color: red;">{{ errors }}</span>
+    {% endfor %}
+
+    <p>{{ form.submit}}</p>
+
+</form>
+{% endblock %}

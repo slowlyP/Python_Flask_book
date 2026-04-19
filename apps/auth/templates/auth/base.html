@@ -12,17 +12,6 @@
 
 <body>
 
-    <!-- 로그인 상태 확인용 코드 추가 p163 -->
-    <div>
-        {% if current_user.is_authenticated %}
-        <p>
-            <span>{{ current_user.username }}</span> -
-            <span><a href="{{ url_for('auth.logout') }}">로그아웃</a></span>
-        </p>
-        {% endif %}
-    </div>
-    <!-- 로그인 상태 확인용 코드 추가 p163 끝 -->
-
     <!-- content를 상속처에서 구현한다. -->
     {% block content %}{% endblock %}
 

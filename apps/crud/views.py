@@ -4,6 +4,7 @@ from apps.app import db
 from apps.crud.models import User
 from flask import Blueprint, render_template, redirect, url_for
 from apps.crud.forms import UserForm
+from flask_login import login_required
 
 # Blueprint로 crud 앱을 생성한다
 crud = Blueprint(
@@ -15,15 +16,21 @@ crud = Blueprint(
 
 # index 엔드포인트를 작성하고 index.html을 반환한다.
 @crud.route("/")
+# 데코레이터를 추가한다
+@login_required
 def index():
     return render_template("crud/index.html")
+    
 
 @crud.route("/sql")
+# 모든 엔드포인트에 @login_required를 추가한다
+@login_required
 def sql():
     db.session.query(User).all()
     return "콘솔 로그를 확인해 주세요"
 
 @crud.route("/users/now", methods=["GET", "POST"])
+@login_required
 def create_user():
     # UserForm을 인스턴스화 한다
     form = UserForm()
@@ -43,6 +50,7 @@ def create_user():
     return render_template("crud/create.html", form=form)
 
 @crud.route("/users")
+@login_required
 def users():
     """사용자의 일람을 취득한다"""
     users = User.query.all()
@@ -51,6 +59,7 @@ def users():
 
 # methods에 GET와 POST를 지정한다
 @crud.route("/users/<user_id>", methods=["GET", "POST"])
+@login_required
 def edit_user(user_id):
     form = UserForm()
 
@@ -70,8 +79,11 @@ def edit_user(user_id):
     return render_template("crud/edit.html", user=user, form=from)
 
 @crud.route("/users/<user_id>/delete", methods=["POST"])
+@login_required
 def delete_user(user_id):
     user=User.query.filter_by(id=user_id).first()
     db.session.delete(user)
     db.session.commit()
     return redirect(url_for("crud.users"))
+
+# index 엔드포인트를 작성하고 index.html을 반환한다
