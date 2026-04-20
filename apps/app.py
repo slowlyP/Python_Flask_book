@@ -1,6 +1,6 @@
 from flask_wtf.csrf import CSRFProtect
 from pathlib import Path
-from flask import Flask
+from flask import Flask, render_template
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from apps.config import config
@@ -53,6 +53,10 @@ def create_app(config_key):
     db.init_app(app)
     # Migrate와 앱을 연계한다
     Migrate(app, db)
+    # 커스텀 오류 화면을 등록한다
+    app.register_error_handler(404,page_not_found)
+    app.register_error_handler(500, internal_server_error)
+    
 
     # crud 패키지로부터 views를 import한다
     from apps.crud import views as crud_views
@@ -66,5 +70,13 @@ def create_app(config_key):
 
     return app
 
+# 등록한 엔드포인트명의 함수를 작성하고, 404 오류나 500 오류가 발생했을 때에 지정한 HTML을 반환한다
+def page_not_found(e):
+    """404 Not Found"""
+    return render_template("404.html"), 404
 
-# 165페이지까지함
+def internal_server_error(e):
+    """500 Internal Server Error"""
+    return render_template("500.html"), 500
+
+

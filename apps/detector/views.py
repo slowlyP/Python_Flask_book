@@ -41,6 +41,7 @@ dt = Blueprint("detector", __name__, template_folder="templates")
 # dt 애플리케이션을 사용하여 엔드포인트를 작성한다
 @dt.route("/")
 def index():
+    raise Exception()
     # 이미지 일람을 가져온다
     # User와 UserImage를 Join 해서 이미지 일람을 취득한다
     user_images = (
@@ -321,3 +322,7 @@ def search():
         delete_form=delete_form,
         detector_form=detector_form,
     )
+
+@dt.errorhandler(404)
+def page_not_found(e):
+    return render_template("detector/404.html"), 404
