@@ -295,8 +295,8 @@ def search():
             )
 
     # 태그를 찾을 수 없다면 이미지를 반환하지 않는다
-    if not user_image_tags:
-        continue
+        if not user_image_tags:
+            continue
 
     #태그가 있는 경우는 태그 정보를 다시 가져온다
     user_image_tags = (
