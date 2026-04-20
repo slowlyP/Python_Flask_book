@@ -19,7 +19,7 @@ class SignUpForm(FlaskForm):
     )
     password = PasswordField("비밀번호",
         validators=[DataRequired("비밀번호는 필수입니다. ")])
-        submit = SubmitField("신규 등록")
+    submit = SubmitField("신규 등록")
 
 
 class LoginForm(FlaskForm):

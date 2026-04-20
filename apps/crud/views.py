@@ -76,7 +76,7 @@ def edit_user(user_id):
         return redirect(url_for("crud.users"))
 
     # GET의 경우는 HTML을 반환한다
-    return render_template("crud/edit.html", user=user, form=from)
+    return render_template("crud/edit.html", user=user, form=form)
 
 @crud.route("/users/<user_id>/delete", methods=["POST"])
 @login_required
