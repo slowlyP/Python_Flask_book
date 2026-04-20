@@ -6,6 +6,8 @@ basedir = Path(__file__).parent.parent
 class BaseConfig:
     SECRET_KEY = "2AZSMss3p5QPbcY2hBsJ"
     WTF_CSRF_SECRET_KEY = "AuwzyszU5sugKN7KZs6f"
+    # 이미지 업로드 경로에 apps/images를 지정한다
+    UPLOAD_FOLDER = str(Path(basedir, "apps", "images"))
 
 # BaseConfig 클래스를 상속하여 LocalConfig 클래스를 작성한다
 class LocalConfig(BaseConfig):
