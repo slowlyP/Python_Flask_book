@@ -23,7 +23,7 @@ class SignUpForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    emial = StringField(
+    email = StringField(
         "메일 주소",
         validators=[
             DataRequired("이메일 주소는 필수입니다."),

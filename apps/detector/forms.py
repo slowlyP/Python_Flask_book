@@ -5,7 +5,7 @@ from wtforms.fields.simple import SubmitField
 class UploadImageForm(FlaskForm):
     # 파일 업로드에 필요한 유효성 검증을 설정한다
     image = FileField(
-        validators-[
+        validators=[
             FileRequired("이미지 파일을 지정해 주세요."),
             FileAllowed(["png", "jpg", "jpeg"], "지원되지 않는 이미지 형식입니다."),
 
