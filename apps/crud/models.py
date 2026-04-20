@@ -18,6 +18,11 @@ class User(db.Model, UserMixin):
         db.DateTime, default=datetime.now, onupdate=datetime.now
     )
 
+    user_images = db.relationship(
+        "UserImage", backref="user", order_by="desc(UserImage.id)"
+        )
+    
+
     # 비밀번호를 설정하기 위한 프로퍼티
     @property
     def password(self):
