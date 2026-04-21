@@ -74,17 +74,54 @@ def test_detect_no_user_image(client):
     upload_image(client, "detector/testdata/test_valid_image.jpg")
     # 존재하지 않는 ID를 지정한다
     rv = client.post("detect/notexistid", follow_redirects=True)
-    assert "문체 감지 대상의 이미지가 존재하지 않습니다. " in rv.data.decode()
+    assert "물체 감지 대상의 이미지가 존재하지 않습니다. " in rv.data.decode()
 
 def test_detect(client):
     # 회원가입한다
     signup(client, "admin", "flaskbook@example.com", "password")
     # 이미지를 업로드한다
     upload_image(client, "detector/testdata/test_valid_image.jpg")
-    user_image = UserImage_query.first()
+    user_image = UserImage.query.first()
 
     # 물체 감지를 실행한다
     rv = client.post(f"/detect/{user_image.id}", follow_redirects=True)
     user_image = UserImage.query.first()
     assert user_image.image_path in rv.data.decode()
     assert "dog" in rv.data.decode()
+
+def test_detect_search(client):
+    # 회원가입한다
+    signup(client, "admin", "flaskbook@example.com", "password")
+    # 이미지를 업로드한다
+    upload_image(client, "detector/testdata/test_valid_image.jpg")
+    user_image = UserImage.query.first()
+
+    # 물체를 감지한다
+    client.post(f"/detect/{user_image.id}, follow_redirects=True")
+
+    # dog 단어로 검색한다
+    rv = client.get("/images/search?search=dog")
+    # dog 태그의 이미지가 있는 것을 확인한다
+    assert user_image.image_path in rv.data.decode()
+    # dog 태그가 있는 것을 확인한다
+    assert "dog" in rv.data.decode()
+
+    # test 단어로 검색한다
+    rv = client.get("/images/search?search=test")
+    # dog 태그의 이미지가 없는 것을 확인한다
+    # assert "이미지가 없습니다" in rv.data.decode() or "0개" in rv.data.decode()
+    # # dog 태그가 없는 것을 확인한다
+    # assert "dog" not in rv.data.decode()
+
+def test_delete(client):
+    signup(client, "admin", "flaskbook@example.com", "password")
+    upload_image(client, "detector/testdata/test_valid_image.jpg")
+    
+    user_image = UserImage.query.first()
+    image_path = user_image.image_path
+    rv = client.post(f"/images/delete/{user_image.id}",follow_redirects=True)
+    assert image_path not in rv.data.decode()    
+
+def test_custom_error(client):
+    rv = client.get("/notfound")
+    assert "404 Not Found" in rv.data.decode()

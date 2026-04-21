@@ -5,6 +5,7 @@ __pycache__/
 .env
 local.sqlite
 model.pt
+apps/detector/model.py
 apps/images/*.jpg
 apps/images/*.png
 apps/images/*.jpeg

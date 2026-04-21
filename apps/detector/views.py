@@ -41,7 +41,7 @@ dt = Blueprint("detector", __name__, template_folder="templates")
 # dt 애플리케이션을 사용하여 엔드포인트를 작성한다
 @dt.route("/")
 def index():
-    raise Exception()
+    # raise Exception()
     # 이미지 일람을 가져온다
     # User와 UserImage를 Join 해서 이미지 일람을 취득한다
     user_images = (
@@ -154,7 +154,10 @@ def exec_detect(target_image_path):
     # 이미지 데이터를 텐서 타입의 수치로 데이터로 변환
     image_tensor = torchvision.transforms.functional.to_tensor(image)
     # 학습 완료 모델의 읽어 들이기
-    model = torch.load(Path(current_app.root_path, "detector", "model.pt"))
+    model = torch.load(
+    Path(current_app.root_path, "detector", "model.pt"),
+    weights_only=False
+)
     # 모델의 추론 모드로 전환
     model = model.eval()
     # 추론의 실행
@@ -266,7 +269,7 @@ def delete_image(image_id):
 def search():
     # 이미지 일람을 가져온다
     user_images = db.session.query(User, UserImage).join(
-        UserImage, User.id == UserImage.user.id
+        UserImage, User.id == UserImage.user_id
     )
 
     # GET 파라미터로부터 검색 단어를 가져온다
