@@ -3,3 +3,10 @@ __pycache__/
 *.pyc
 .env
 model.pt
+
+# flaskbook_api/data/ 폴더 안의 모든 jpg 파일 제외
+flaskbook_api/data/original/*.jpg
+flaskbook_api/data/output/*.jpg
+
+# 혹은 데이터 폴더 전체를 제외하고 싶다면
+flaskbook_api/data/
