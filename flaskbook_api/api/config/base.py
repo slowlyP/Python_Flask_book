@@ -1,6 +1,7 @@
 class Config:
     TESTING = False
     DEBUG = False
+    SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:password@127.0.0.1:3306/flaskDB"
     # 감지하는 라벨
     LABELS = [
         "unlabeled",

@@ -78,5 +78,3 @@ def page_not_found(e):
 def internal_server_error(e):
     """500 Internal Server Error"""
     return render_template("500.html"), 500
-
-

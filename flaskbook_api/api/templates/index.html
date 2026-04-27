@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <title>AI - 실시간 모니터링</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: white;
+            font-family: 'Malgun Gothic', sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #4dadff;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        /* 4분할 그리드 설정 (2x2 배열) */
+        .monitor-container {
+            display: grid;
+            /* 화면이 넓으면 2열로 배치, 좁으면 자동으로 조절 */
+            grid-template-columns: repeat(auto-fit, minmax(45%, 1fr));
+            gap: 20px;
+            padding: 10px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .cam-box {
+            background-color: #1e1e1e;
+            border: 2px solid #333;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: border-color 0.3s;
+        }
+
+        .cam-box:hover {
+            border-color: #4dadff;
+        }
+
+        .cam-header {
+            background-color: #333;
+            padding: 8px 15px;
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .status-dot {
+            height: 10px;
+            width: 10px;
+            background-color: #28a745;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 5px;
+            animation: blink 1.5s infinite;
+        }
+
+        .video-feed {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16 / 9;
+            background-color: #000;
+            display: block;
+        }
+
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+
+            50% {
+                opacity: 0.4;
+            }
+
+            100% {
+                opacity: 1;
+            }
+        }
+
+        .loading-text {
+            color: #28a745;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>🚨 AI Multi-Channel Monitor</h1>
+
+    <div class="monitor-container">
+        <div class="cam-box">
+            <div class="cam-header">
+                <span>CH 00 - USB WEB CAM</span>
+                <span class="loading-text"><span class="status-dot"></span>LIVE</span>
+            </div>
+            <img class="video-feed" src="{{ url_for('api.video_feed', cam_id=0) }}" alt="Webcam">
+        </div>
+
+        <div class="cam-box">
+            <div class="cam-header">
+                <span>CH 01 - 192.168.0.48</span>
+                <span class="loading-text"><span class="status-dot"></span>LIVE</span>
+            </div>
+            <img class="video-feed" src="{{ url_for('api.video_feed', cam_id=1) }}" alt="Camera 1">
+        </div>
+
+        <div class="cam-box">
+            <div class="cam-header">
+                <span>CH 02 - 192.168.0.38</span>
+                <span class="loading-text"><span class="status-dot"></span>LIVE</span>
+            </div>
+            <img class="video-feed" src="{{ url_for('api.video_feed', cam_id=2) }}" alt="Camera 2">
+        </div>
+
+        <div class="cam-box">
+            <div class="cam-header">
+                <span>CH 03 - 192.168.0.43</span>
+                <span class="loading-text"><span class="status-dot"></span>LIVE</span>
+            </div>
+            <img class="video-feed" src="{{ url_for('api.video_feed', cam_id=3) }}" alt="Camera 3">
+        </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px; color: #888;">
+        <p>※ 모든 채널은 YOLO11 실시간 분석 및 객체 탐지가 적용 중입니다.</p>
+    </div>
+</body>
+
+</html>

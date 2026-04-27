@@ -55,4 +55,3 @@ def detection(request):
     # 감지 후의 이미지 파일을 저장
     cv2.imwrite(dir_image, cv2.cvtColor(result_image, cv2.COLOR_RGB2BGR))
     return jsonify(dict_results), 201
-
